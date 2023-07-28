@@ -10,7 +10,7 @@ var components: React.ReactElement[] = [];
 
 for (var i = 0; i < NavText.length; i++)
     components.push(
-        <LinkTrace to = {EndPoints[i]} text = {NavText[i]} />
+        <LinkTrace key = {i} to = {EndPoints[i]} text = {NavText[i]} />
     )
 
 export default function Navbar() {

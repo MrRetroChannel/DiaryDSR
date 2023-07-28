@@ -6,17 +6,15 @@ import { Route, Routes } from 'react-router-dom'
 import './App.css'
 
 function App() {
-  //const [count, setCount] = useState(0)
-
   return (
     <>
       <Navbar />
       <div>
         <Routes>
-          <Route path = "/" element = {<Calendar/>} />
-          <Route path = "/calendar" element = {<Calendar/>} />
-          <Route path = "/settings" element = {<Settings/>} />
-          <Route path = "/activity" element = {<Activity/>} />
+          <Route key = "home" path = "/" element = {<Calendar/>} />
+          <Route key = "calendar" path = "/calendar" element = {<Calendar/>} />
+          <Route key = "settings" path = "/settings" element = {<Settings/>} />
+          <Route key = "activity" path = "/activity" element = {<Activity/>} />
         </Routes>
       </div>
     </>

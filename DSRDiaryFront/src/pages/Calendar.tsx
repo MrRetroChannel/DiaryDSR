@@ -1,10 +1,14 @@
-import React from 'react'
+import { useState } from 'react'
+import { TaskForm } from '../components/TaskForm'
 
 export default function Calendar() {
+    const [ show, setShow ] = useState(false);
 
     return (
-        <button onClick = { () => {console.log("нажал")}}>
-            у
-        </button>
+        <>  
+            <button onClick = {() => setShow(true)}>Добавить задачу</button>
+            <TaskForm open={show} close ={() => setShow(false)} />
+        </>
+        
     )
 }

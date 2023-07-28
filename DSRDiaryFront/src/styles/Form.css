@@ -1,0 +1,43 @@
+.errorField {
+  border: 1.5px solid #fe0000;
+}
+
+.overlay-background {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #00000083;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay-background.active {
+  opacity: 1;
+}
+
+.overlay-form {
+  padding: 20px;
+  background-color: black;
+  border-radius: 20px;
+  width: 200px;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton {
+  right: 0;
+  top: 0;
+  padding: 10px;
+  position: absolute;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 2rem;
+}
