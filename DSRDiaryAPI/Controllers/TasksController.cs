@@ -1,6 +1,7 @@
 ﻿using DiaryDSR.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DiaryDSR.Controllers
 {
@@ -9,6 +10,12 @@ namespace DiaryDSR.Controllers
     public class TasksController : ControllerBase
     {
         private readonly AppPostgreContext _context;
+
+        private struct JSONResponse
+        {
+            public int id { get; set; }
+            public string message { get; set; }
+        }
 
         public TasksController(AppPostgreContext ctx)
         {
@@ -22,14 +29,22 @@ namespace DiaryDSR.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Post(DiaryTask task)
+        public async Task<ActionResult<int>> Post([ValidateNever] DiaryTask task)
         {
-            return Ok(await _context.DiaryTask.AddAsync(task));
+            TaskType? type = await _context.TaskTypes.FindAsync(task.TypeId);
+
+            if (type == null)
+                return BadRequest(-1);
+
+            await _context.DiaryTask.AddAsync(task);
+            await _context.SaveChangesAsync();
+            return Ok(task.Taskid);
         }
 
         [HttpPut]
         public async Task<ActionResult<bool>> Put(DiaryTask task)
         {
+
             return Ok(true);
         }
 
@@ -40,11 +55,10 @@ namespace DiaryDSR.Controllers
 
             if (found == null)
                 return BadRequest(false);
-            else
-            {
-                _context.DiaryTask.Remove(found);
-                return Ok(true);
-            }
+
+            _context.DiaryTask.Remove(found);
+            await _context.SaveChangesAsync();
+            return Ok(true);
         }
     }
 }

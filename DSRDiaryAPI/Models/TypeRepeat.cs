@@ -2,6 +2,7 @@
 {
     public enum TypeRepeat : byte
     {
+        NONE,
         DAILY,
         WEEKLY,
         MONTHLY,

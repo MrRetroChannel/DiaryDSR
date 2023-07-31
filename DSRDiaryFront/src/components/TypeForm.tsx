@@ -1,56 +1,44 @@
+import { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { get, post } from '../util/api';
-import useMap from '../util/mapState';
-import "../styles/Form.css"
-import { createContext } from 'react';
+import { TaskType, TypeContext } from '../contexts/TypeContext'
+import { post, put } from '../util/api';
+import '../styles/Form.css'
 
-export type TaskType = {
-    typename: string,
-    color: string
-}
-
-var types: Map<number, TaskType> = new Map();
-
-//const [types, setTypes] = useMap<number, TaskType>();
-//export const TypesContext = createContext<Map<number, TaskType> | undefined>(undefined);    
-
-async function parseTypes() {
-    var json = await get("api/TaskType");
-    for (var type of json) {
-        type DBType = {typeid: number} & TaskType;
-
-        var prom: DBType = type;
-        
-        types.set(prom.typeid, { typename: prom.typename, color: prom.color });
-        //setTypes.set(prom.typeid, { typename: prom.typename, color: prom.color });
-    }
-}
-
-//await parseTypes();
-
-export function TypeForm({open, close, name, color}: {open: boolean, close: () => void, name?: string, color?: string}) {
+export default function TypeForm({open, close, name, color, typeid}: {open: boolean, close: () => void, name?: string, color?: string, typeid?: number}) {
     if (open == false)
         return null;
 
+    const isEditing = name !== undefined || color !== undefined;
+
     const { register, handleSubmit, formState: { errors } }  = useForm<TaskType>()
 
-    const handle: SubmitHandler<TaskType> = async data => { 
-        types.set(types.size + 1, data);  
-        await post("api/TaskType", JSON.stringify(data)) 
+    const { setTypes } = useContext(TypeContext);
+
+    const [lname, setName] = useState(name);
+
+    const [lcolor, setColor] = useState(color);
+
+    const handle: SubmitHandler<TaskType> = async data => {
+        if (!isEditing) 
+            setTypes!.set(await post("api/TaskType", JSON.stringify(data)), data); 
+        else
+        {
+            setTypes!.set(typeid!, data);
+            const putData: {typeid: number} & TaskType = { typeid: typeid!, ...data }
+            await put("api/TaskType", JSON.stringify(putData))
+        }
     }
 
     return (
         <>
             <div className={`overlay-background ${open ? "active" : ""}`}>
-                <form className="overlay-form" onSubmit = {handleSubmit(handle)}>
+                <form className="overlay-form" onSubmit={handleSubmit(handle)}>
                     <button className="closeButton" onClick={close}>&times;</button>
-                    <input placeholder="Имя типа" className = {errors.typename? "errorField" : ""} type="text" value = {name} {...register("typename", { required: true })}/>
-                    <input type="color" value = {color} {...register("color")}/>
+                    <input placeholder="Имя типа" className={errors.typename? "errorField" : ""} type="text" value={lname} {...register("typename", { required: true })} onChange={(e) => setName(e.target.value)}/>
+                    <input type="color" value={lcolor === undefined ? "#000000" : lcolor} {...register("color")} onChange={(e) => setColor(e.target.value)}/>
                     <button>Сохранить</button>
                 </form>
             </div>
         </>
     )
 }
-
-export { types };

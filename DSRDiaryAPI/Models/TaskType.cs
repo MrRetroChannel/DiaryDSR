@@ -12,5 +12,5 @@ public partial class TaskType
 
     public string Typename { get; set; } = null!;
 
-    public TypeColor Color { get; set; } = TypeColor.Default();
+    public string Color { get; set; } = "#000000";
 }

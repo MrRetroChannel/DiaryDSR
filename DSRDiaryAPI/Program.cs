@@ -9,11 +9,24 @@ class MainProgram
 
         builder.Services.AddControllers();
 
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        builder.Services.AddCors(cors => cors.AddPolicy("AllowOrigin", 
+            options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()) 
+        );
+
         builder.Services.AddDbContext<AppPostgreContext>( options =>
                 options.UseNpgsql("Host=localhost;Port=5432;Database=Tasks;Username=postgres;Password=123")
         );
 
         var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
         app.UseHttpsRedirection();
 
@@ -22,6 +35,8 @@ class MainProgram
         app.MapControllers();
 
         app.UseRouting();
+
+        app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
         app.Run();
     }

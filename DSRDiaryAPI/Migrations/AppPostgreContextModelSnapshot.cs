@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DiaryDSR.Migrations
+namespace DSRDiaryAPI.Migrations
 {
     [DbContext(typeof(AppPostgreContext))]
     partial class AppPostgreContextModelSnapshot : ModelSnapshot
@@ -33,7 +33,7 @@ namespace DiaryDSR.Migrations
                     b.Property<DateTime>("Endtime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<byte?>("Repeat")
+                    b.Property<byte>("Repeat")
                         .HasColumnType("smallint");
 
                     b.Property<DateTime>("Starttime")
@@ -45,12 +45,14 @@ namespace DiaryDSR.Migrations
                     b.Property<string>("Taskcomment")
                         .HasColumnType("text");
 
-                    b.Property<int>("Typeid")
+                    b.Property<string>("Taskname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Taskid");
-
-                    b.HasIndex("Typeid");
 
                     b.ToTable("DiaryTask");
                 });
@@ -63,6 +65,10 @@ namespace DiaryDSR.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Typeid"));
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Typename")
                         .IsRequired()
                         .HasColumnType("text");
@@ -70,45 +76,6 @@ namespace DiaryDSR.Migrations
                     b.HasKey("Typeid");
 
                     b.ToTable("TaskTypes");
-                });
-
-            modelBuilder.Entity("DiaryDSR.Models.DiaryTask", b =>
-                {
-                    b.HasOne("DiaryDSR.Models.TaskType", "Type")
-                        .WithMany()
-                        .HasForeignKey("Typeid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Type");
-                });
-
-            modelBuilder.Entity("DiaryDSR.Models.TaskType", b =>
-                {
-                    b.OwnsOne("DiaryDSR.Models.TypeColor", "Color", b1 =>
-                        {
-                            b1.Property<int>("TaskTypeTypeid")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("Blue")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("Green")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("Red")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("TaskTypeTypeid");
-
-                            b1.ToTable("TaskTypes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TaskTypeTypeid");
-                        });
-
-                    b.Navigation("Color")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
