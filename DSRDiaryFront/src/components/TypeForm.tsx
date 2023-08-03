@@ -15,7 +15,6 @@ export default function TypeForm({open, close, name, color, typeid}: {open: bool
     const { setTypes } = useContext(TypeContext);
 
     const [lname, setName] = useState(name);
-
     const [lcolor, setColor] = useState(color);
 
     const handle: SubmitHandler<TaskType> = async data => {
@@ -24,21 +23,20 @@ export default function TypeForm({open, close, name, color, typeid}: {open: bool
         else
         {
             setTypes!.set(typeid!, data);
-            const putData: {typeid: number} & TaskType = { typeid: typeid!, ...data }
-            await put("api/TaskType", JSON.stringify(putData))
+            const putData: {typeid: number} & TaskType = { typeid: typeid!, ...data };
+            await put("api/TaskType", JSON.stringify(putData));
         }
     }
 
     return (
-        <>
-            <div className={`overlay-background ${open ? "active" : ""}`}>
-                <form className="overlay-form" onSubmit={handleSubmit(handle)}>
-                    <button className="closeButton" onClick={close}>&times;</button>
-                    <input placeholder="Имя типа" className={errors.typename? "errorField" : ""} type="text" value={lname} {...register("typename", { required: true })} onChange={(e) => setName(e.target.value)}/>
-                    <input type="color" value={lcolor === undefined ? "#000000" : lcolor} {...register("color")} onChange={(e) => setColor(e.target.value)}/>
-                    <button>Сохранить</button>
-                </form>
-            </div>
-        </>
+        <div className={`overlay-background ${open ? "active" : ""}`}>
+            <form className="overlay-form" onSubmit={handleSubmit(handle)}>
+                <button className="closeButton" onClick={close}>&times;</button>
+                <input placeholder="Имя типа" className={errors.typename? "errorField" : ""} type="text" value={lname} {...register("typename", { required: true })} onChange={(e) => setName(e.target.value)}/>
+                <input type="color" value={lcolor === undefined ? "#000000" : lcolor} {...register("color")} onChange={(e) => setColor(e.target.value)}/>
+                {isEditing && <button className="deleteButton">Удалить</button>}
+                <button className="saveButton">Сохранить</button>
+            </form>
+        </div>
     )
 }

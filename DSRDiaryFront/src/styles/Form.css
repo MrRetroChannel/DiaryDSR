@@ -25,14 +25,22 @@
   background-color: black;
   border-radius: 20px;
   width: 200px;
-  position: absolute;
+  position: relative;
   align-items: center;
   justify-content: center;
 }
 
+.overlay-form > * {
+  margin: 2px;
+}
+
 .addButton {
-  position: fixed;
-  background-color: #ff0000; 
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  background-color: #ff0000;
   color: #ffffff; 
   border: none; 
   padding: 10px 20px; 
@@ -42,6 +50,12 @@
   right: 10%;
 }
 
+.saveButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 15px;
+}
 
 .closeButton {
   right: 0;

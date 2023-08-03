@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect } from 'react';
-import { TaskType } from './TypeContext';
 import useMap from '../util/mapState';
+import { get } from '../util/api';
 
 export enum Repeat {
     NONE,
@@ -10,13 +10,30 @@ export enum Repeat {
     YEARLY
 }
 
+export enum Status {
+    FAILED,
+    INPROGRESS,
+    DONE
+}
+
 export type Task = {
     name: string,
     startTime: Date,
     endTime: Date,
     text: string,
+    typeid: number,
     repeat: Repeat,
-    type: TaskType
+}
+
+export type DBTask = {
+    taskid?: number,
+    taskname: string,
+    starttime: string,
+    endtime: string,
+    taskcomment: string,
+    typeId: number,
+    status: Status,
+    repeat: Repeat,
 }
 
 export type TasksContext = {
@@ -32,7 +49,24 @@ export const TaskContext = createContext<Partial<TasksContext>>({});
 export function TasksProvider({children} : {children: ReactNode}) {
     const [tasks, setTasks] = useMap<number, Task>();
     useEffect(() => {
+        const parseTasks = async () => { 
+            var json = await get("api/Tasks");
 
+            for (var type of json) {
+                var prom: DBTask = type;
+                
+                setTasks.set(prom.taskid!, {
+                    name: prom.taskname,
+                    startTime: new Date(prom.starttime),
+                    endTime: new Date(prom.endtime),
+                    text: prom.taskcomment,
+                    typeid: prom.typeId,
+                    repeat: prom.repeat
+                })
+            }
+        };
+
+    parseTasks();
     }, []);
 
     return (

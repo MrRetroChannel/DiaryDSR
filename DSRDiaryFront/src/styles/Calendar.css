@@ -1,0 +1,43 @@
+#calendar {
+    position: relative;
+}
+
+.tasksgraph {
+    display: grid;
+    grid-template-rows: 1fr, repeat(96, 1fr) ;
+    grid-template-columns: 1fr, repeat(7, 1fr);
+    grid-column-gap: 10px;
+    border-left: 5px solid black;
+    border-bottom: 5px solid black;
+    width: 60vw;
+    height: 80vh;
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    translate: -50% ;
+    background-color: rgba(255, 255, 255, 0.288);
+}
+
+.daysGrid {
+    background-color: black;
+    width: 60vw;
+    height: 50px;
+    position: absolute;
+    right: 0;
+}
+
+.graphTime {
+    text-align: center;
+    margin: -0.5rem;
+}
+
+.graphDay {
+    text-align: center;
+}
+
+.task {
+    border: "1px solid black";
+    text-align: center;
+    text-justify: center;
+}
+

@@ -9,8 +9,12 @@ export default function Settings() {
     const [show, setShow] = useState(false);
 
     return (
-        <div className="settings">
-            <button className="addButton" onClick = {() => setShow(!show)}>Добавить тип задачи +</button>
+        <div id="settings">
+            <button className="addButton" onClick = {() => setShow(!show)}>
+                Добавить тип задачи 
+                <span style={{fontSize: "2rem", marginLeft: 4}}>+</span>
+            </button>
+            
             <TypeForm open={show} close={() => setShow(false)}/>
 
             {Array.from(types!.entries())

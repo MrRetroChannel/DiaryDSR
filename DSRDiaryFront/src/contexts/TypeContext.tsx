@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { get } from '../util/api';
 import useMap from '../util/mapState';
 
@@ -19,6 +19,7 @@ export const TypeContext = createContext<Partial<TypesContext>>({});
 
 export function TypesProvider({children} : {children: ReactNode}) {
     const [types, setTypes] = useMap<number, TaskType>();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const parseTypes = async () => { 
@@ -29,10 +30,17 @@ export function TypesProvider({children} : {children: ReactNode}) {
                     var prom: DBType = type;
                     setTypes.set(prom.typeid, { typename: prom.typename, color: prom.color });
                 }
+
+                setLoading(false);
             };
         parseTypes();
     }, [])
 
+    if (loading)
+    return (
+        <>Загрузка типов...</>
+    )
+    
     return (
         <TypeContext.Provider value = {{types, setTypes}}>
             {children}

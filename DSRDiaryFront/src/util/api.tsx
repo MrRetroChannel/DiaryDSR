@@ -1,5 +1,4 @@
-async function get(endpoint: string | undefined) {
-    
+async function get(endpoint?: string) {
     return await (await fetch(`https://localhost:7177/${endpoint}`, 
             {
                 headers: {"Content-Type": "application/json"}

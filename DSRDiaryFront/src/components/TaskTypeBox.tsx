@@ -3,7 +3,8 @@ import TypeForm from './TypeForm';
 import { TaskType } from '../contexts/TypeContext';
 import { useState, useContext } from 'react'
 import { apiDelete } from '../util/api';
-import '../styles/TypeBox.css'
+import '../styles/Settings.css'
+import Trash from '../assets/trash.svg'
 
 export default function TaskTypeBox({typeid, typename, color}: {typeid: number} & TaskType) {
     const [show, setShow] = useState(false);
@@ -14,9 +15,9 @@ export default function TaskTypeBox({typeid, typename, color}: {typeid: number} 
         <div className="typebox">
             {typename}
             <div style={{backgroundColor: color, height: 15, width: 15, borderRadius: "50%", border: "1px solid white"}}></div>
-            <button onClick={ () => { setShow(true) } }>Изменить</button>
+            <button className="editButton" onClick={ () => { setShow(true) } }>Изменить</button>
             <TypeForm open={show} close={ () => setShow(false) } name={typename} color={color} typeid={typeid} />
-            <button onClick={ async () => { setTypes!.remove(typeid); await apiDelete("api/TaskType", typeid) } }>Удалить</button>
+            <button className="deleteButton" onClick={ async () => { setTypes!.remove(typeid); await apiDelete("api/TaskType", typeid) } }><img src={Trash} style={{width: "1em"}}/> Удалить</button>
         </div>
     )
 }
