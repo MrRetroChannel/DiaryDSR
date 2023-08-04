@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { TaskType, TypeContext } from '../contexts/TypeContext'
-import { post, put } from '../util/api';
+import { post, put, apiDelete } from '../util/api';
 import '../styles/Form.css'
 
 export default function TypeForm({open, close, name, color, typeid}: {open: boolean, close: () => void, name?: string, color?: string, typeid?: number}) {
@@ -26,6 +26,8 @@ export default function TypeForm({open, close, name, color, typeid}: {open: bool
             const putData: {typeid: number} & TaskType = { typeid: typeid!, ...data };
             await put("api/TaskType", JSON.stringify(putData));
         }
+
+        close(); 
     }
 
     return (
@@ -33,8 +35,11 @@ export default function TypeForm({open, close, name, color, typeid}: {open: bool
             <form className="overlay-form" onSubmit={handleSubmit(handle)}>
                 <button className="closeButton" onClick={close}>&times;</button>
                 <input placeholder="Имя типа" className={errors.typename? "errorField" : ""} type="text" value={lname} {...register("typename", { required: true })} onChange={(e) => setName(e.target.value)}/>
-                <input type="color" value={lcolor === undefined ? "#000000" : lcolor} {...register("color")} onChange={(e) => setColor(e.target.value)}/>
-                {isEditing && <button className="deleteButton">Удалить</button>}
+                <label>Цвет</label>
+                <input className="colorPicker" type="color" value={lcolor === undefined ? "#000000" : lcolor} {...register("color")} onChange={(e) => setColor(e.target.value)}/>
+                {isEditing && <button className="deleteButton" onClick={async () => { setTypes!.remove(typeid!); await apiDelete("api/TaskType", typeid); close(); }}>
+                                Удалить
+                              </button>}
                 <button className="saveButton">Сохранить</button>
             </form>
         </div>

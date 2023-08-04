@@ -17,7 +17,7 @@ export default function TaskTypeBox({typeid, typename, color}: {typeid: number} 
             <div style={{backgroundColor: color, height: 15, width: 15, borderRadius: "50%", border: "1px solid white"}}></div>
             <button className="editButton" onClick={ () => { setShow(true) } }>Изменить</button>
             <TypeForm open={show} close={ () => setShow(false) } name={typename} color={color} typeid={typeid} />
-            <button className="deleteButton" onClick={ async () => { setTypes!.remove(typeid); await apiDelete("api/TaskType", typeid) } }><img src={Trash} style={{width: "1em"}}/> Удалить</button>
+            <button className="deleteButton" onClick={ async () => { setTypes!.remove(typeid); await apiDelete("api/TaskType", typeid) } }><img src={Trash} style={{height: "0.8rem"}}/> Удалить</button>
         </div>
     )
 }

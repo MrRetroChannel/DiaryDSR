@@ -2,44 +2,68 @@ import { Task } from '../contexts/TaskContext'
 import { useContext, useState } from 'react'
 import { TypeContext } from '../contexts/TypeContext';
 import { TaskForm } from './TaskForm';
-
-const graphHeight = window.innerHeight / 2;
-const graphWidth = window.innerWidth / 2;
+import ContextMenu from './ContextMenu';
+import '../styles/TaskBox.css'
 
 function getPixels(task: Task): number[] {
-    const startY = (task.startTime.getHours() * 60 + task.startTime.getMinutes()) / 15; //graphHeight * new Date(task.startTime).getTime() / 1000 / 86400;
-    const endY = (task.endTime.getHours() * 60 + task.endTime.getMinutes()) / 15; //graphHeight * new Date(task.endTime).getTime() / 1000 / 86400;
+    const startY = (task.startTime.getHours() * 60 + task.startTime.getMinutes()) / 15;
+    const endY = (task.endTime.getHours() * 60 + task.endTime.getMinutes()) / 15;
     const X = task.startTime.getDay(); 
-    return [ startY, endY, X];
+    return [ Math.round(startY), Math.round(endY), X];
 }
+
+function dateToTime(date: Date): string {
+    return `${date.getHours()}:${date.getMinutes()}`;
+}
+
+const statusStr = ["Провалено", "Выполняется", "Выполнено"];
+const statusColor = ["red", "#404040","#00ff11"]
 
 export default function TaskBox({taskid, task}: {taskid: number, task: Task}) {
     const [show, setShow] = useState(false);
+    const [context, setContext] = useState({x: 0, y: 0})
+    const [contextShow, setContextShow] = useState(false);
 
-    const [hover, setHover] = useState(false);
+    const handleContext = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.preventDefault();
+        setContextShow(true);
+        setContext({x: e.clientX, y: e.clientY});
+    }
 
     const { types } = useContext(TypeContext);
 
     const [sY, eY, X] = getPixels(task);
 
+    const type = types!.get(task.typeid);
+
     return (
         <>
             <TaskForm open={show} close={() => setShow(false)} task={task} taskid={taskid}/>
+            {contextShow && <ContextMenu x={context.x} y={context.y} close={() => setContextShow(false)} taskid={taskid}/>}
             <div className="task" 
                 style={
                     {
-                    backgroundColor: types!.get(task.typeid)!.color, 
-                    gridRow: `${96 - Math.round(sY)} / ${96 - Math.round(eY)}`,
-                    gridColumn: `${1 + X}`,
-                    boxShadow: hover? "4px 17px 8px 0px rgba(34, 60, 80, 0.5)" : "none",
-                    cursor: 'pointer',
+                    backgroundColor: type ? type.color : "#fff5", 
+                    gridRow: `${96 - sY} / ${96 - eY}`,
+                    gridColumn: `${X}`,
                     }}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
                 onClick={() => setShow(true)}
+                onContextMenu={e => handleContext(e)}
                 >
+
+                <div className="taskName">
+                    {task.name}
+                </div>
                 
-                {task.name}
+                <div className="taskStatus">
+                    {statusStr[task.status]}
+                    <div className="statusCircle" style={{backgroundColor: statusColor[task.status]}} />
+                </div>
+                
+                <div className="taskTime">
+                    {`${dateToTime(task.startTime)} - ${dateToTime(task.endTime)}`}
+                </div>
+               
             </div>
         </>
     )

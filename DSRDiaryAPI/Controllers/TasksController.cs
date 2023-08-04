@@ -11,6 +11,10 @@ namespace DiaryDSR.Controllers
     {
         private readonly AppPostgreContext _context;
 
+        private readonly DbSet<DiaryTask> _tasks;
+
+        private readonly DbSet<TaskType> _tasktypes;
+
         private struct JSONResponse
         {
             public int id { get; set; }
@@ -20,43 +24,77 @@ namespace DiaryDSR.Controllers
         public TasksController(AppPostgreContext ctx)
         {
             _context = ctx;
+            _tasks = ctx.DiaryTask;
+            _tasktypes = ctx.TaskTypes;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<DiaryTask>>> Get()
         {
-            return Ok(await _context.DiaryTask.ToListAsync());
+            return Ok(await _tasks.ToListAsync());
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post([ValidateNever] DiaryTask task)
+        public async Task<ActionResult<int>> Post(DiaryTask task)
         {
-            TaskType? type = await _context.TaskTypes.FindAsync(task.TypeId);
+            TaskType? type = await _tasktypes.FindAsync(task.TypeId);
 
             if (type == null)
                 return BadRequest(-1);
 
-            await _context.DiaryTask.AddAsync(task);
+            await _tasks.AddAsync(task);
             await _context.SaveChangesAsync();
             return Ok(task.Taskid);
+        }
+
+        [HttpPut("setComplete/{id}")]
+        public async Task<ActionResult<bool>> SetComplete(int id)
+        {
+            DiaryTask? found = await _tasks.FindAsync(id);
+
+            if (found == null)
+                return BadRequest(false);
+
+            found.Status = TypeStatus.DONE;
+
+            await _context.SaveChangesAsync();
+            return Ok(true);
         }
 
         [HttpPut]
         public async Task<ActionResult<bool>> Put(DiaryTask task)
         {
+            DiaryTask? found = _tasks.Find(task.Taskid);
 
+            if (found == null)
+                return BadRequest(false);
+
+            var types = found.GetType().GetProperties();
+
+            foreach (var i in types)
+                i.SetValue(found, i.GetValue(task));
+
+            /*found.Taskname = task.Taskname;
+            found.Starttime = task.Starttime;
+            found.Endtime = task.Endtime;
+            found.Taskcomment = task.Taskcomment;
+            found.TypeId = task.TypeId;
+            found.Status = task.Status;
+            found.Repeat = task.Repeat;*/
+
+            await _context.SaveChangesAsync();
             return Ok(true);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            DiaryTask? found = await _context.DiaryTask.FindAsync(id);
+            DiaryTask? found = await _tasks.FindAsync(id);
 
             if (found == null)
                 return BadRequest(false);
 
-            _context.DiaryTask.Remove(found);
+            _tasks.Remove(found);
             await _context.SaveChangesAsync();
             return Ok(true);
         }

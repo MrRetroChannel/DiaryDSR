@@ -11,21 +11,24 @@ namespace DSRDiaryAPI.Controllers
     {
         private readonly AppPostgreContext _context;
 
+        private readonly DbSet<TaskType> _tasktypes;
+
         public TaskTypeController(AppPostgreContext ctx)
         {
             _context = ctx;
+            _tasktypes = ctx.TaskTypes;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<TaskType>>> Get()
         {
-            return await _context.TaskTypes.ToListAsync();
+            return await _tasktypes.ToListAsync();
         }
 
         [HttpPost]
         public async Task<ActionResult<int>> Post(TaskType type)
         {
-            await _context.TaskTypes.AddAsync(type);
+            await _tasktypes.AddAsync(type);
             await _context.SaveChangesAsync();
             return Ok(type.Typeid);
         }
@@ -33,7 +36,7 @@ namespace DSRDiaryAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<bool>> Put(TaskType type)
         {
-            TaskType? found = _context.TaskTypes.Find(type.Typeid);
+            TaskType? found = _tasktypes.Find(type.Typeid);
 
             if (found == null)
                 return BadRequest(false);
@@ -48,12 +51,12 @@ namespace DSRDiaryAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
-            TaskType? type = await _context.TaskTypes.FindAsync(id);
+            TaskType? type = await _tasktypes.FindAsync(id);
 
             if (type == null)
                 return BadRequest(false);
 
-            _context.TaskTypes.Remove(type);
+            _tasktypes.Remove(type);
             await _context.SaveChangesAsync();
             return Ok(true);
         }

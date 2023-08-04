@@ -1,23 +1,21 @@
-.errorField {
+input[type="text"].errorField, .datepicker.errorField {
   border: 1.5px solid #fe0000;
 }
 
 .overlay-background {
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: #00000083;
-  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
 }
 
 .overlay-background.active {
-  opacity: 1;
+  animation: fadeIn 0.5s ease;
 }
 
 .overlay-form {
@@ -30,16 +28,57 @@
   justify-content: center;
 }
 
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+select,
+.datepicker {
+  padding: 10px;  
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.formcomment {
+  position: relative;
+  
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.overlay-background.active .overlay-form {
+  animation: jump 0.5s ease;
+}
+
 .overlay-form > * {
   margin: 2px;
 }
 
 .addButton {
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
+  top: 14%;
+  right: 20%;
   background-color: #ff0000;
   color: #ffffff; 
   border: none; 
@@ -47,7 +86,23 @@
   font-size: 16px;
   border-radius: 5px; 
   cursor: pointer;
-  right: 10%;
+}
+
+.deleteButton {
+  padding: 3px 5px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 2px;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #ff0000;
+  color: white; 
 }
 
 .saveButton {
@@ -67,4 +122,22 @@
   background: none;
   color: white;
   font-size: 2rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes jump {
+  from {
+    scale: 0.3;
+  }
+  to {
+    scale: 1;
+  }
 }

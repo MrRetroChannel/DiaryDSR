@@ -16,6 +16,5 @@ export default function Calendar() {
             </button>
             <TaskForm open={show} close ={() => setShow(false)} />
         </div>
-        
     )
 }

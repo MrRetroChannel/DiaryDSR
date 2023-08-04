@@ -1,0 +1,11 @@
+#app {
+    position: relative;
+}
+
+.loading {
+    font-size: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+}

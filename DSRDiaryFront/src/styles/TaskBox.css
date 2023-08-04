@@ -1,0 +1,54 @@
+.task {
+    border: 1px solid black;
+    text-align: center;
+    justify-content: center;
+    overflow: hidden;
+    text-justify: center;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.task:hover {
+    box-shadow: 4px 10px 8px 0px rgba(34, 60, 80, 0.678);
+}
+
+.completeCtxButton {
+    cursor: pointer;
+    text-align: center;
+  }
+  
+.completeCtxButton:hover {
+    background-color: #33ff00;
+    color: black;
+}
+
+.deleteCtxButton {
+    cursor: pointer;
+    text-align: center;
+}
+
+.deleteCtxButton:hover {
+    background-color: red;
+}
+
+.taskName {
+    font-weight: 600;
+}
+
+.taskStatus {
+    font-size: 10px; 
+}
+
+.statusCircle {
+  display: inline-block;
+  margin-left: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.taskTime {
+    font-size: 2vh;
+}

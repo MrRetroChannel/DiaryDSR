@@ -38,7 +38,7 @@ export function TypesProvider({children} : {children: ReactNode}) {
 
     if (loading)
     return (
-        <>Загрузка типов...</>
+        <div className="loading">Загрузка...</div>
     )
     
     return (

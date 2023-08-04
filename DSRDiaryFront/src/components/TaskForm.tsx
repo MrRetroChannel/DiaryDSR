@@ -33,6 +33,7 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
         data.repeat = parseInt(data.repeat.toString()); 
         data.startTime = new Date(data.startTime);
         data.endTime = new Date(data.endTime);
+        data.status = Status.INPROGRESS;
         
         const dbTask: DBTask = { taskname: data.name, 
                                  starttime: data.startTime.toISOString(),
@@ -56,13 +57,15 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
 
     return (
         <div className={`overlay-background ${open ? "active" : ""}`}>
-            <form className = "overlay-form" onSubmit = {handleSubmit(handle)}>
+            <form className={"overlay-form"} onSubmit = {handleSubmit(handle)}>
                 <button className="closeButton" onClick={close}>&times;</button>
 
                 <input className={errors.name ? "errorField" : ""} value={lname} type="text" placeholder = "Имя задачи" {...register("name", { required: true})} onChange={e => setName(e.target.value)}/>
-                <input className={errors.startTime ? "errorField" : ""} value={lStart} type="datetime-local" {...register("startTime", { required: true})} onChange={e => setStart(e.target.value)}/>
-                <input className={errors.endTime ? "errorField" : ""} value={lEnd} type="datetime-local" {...register("endTime", { required: true, validate: date => { const start = new Date(getValues("startTime")); const end = new Date(date); return start.getDate() === end.getDate() && start.getTime() < end.getTime(); } })} onChange={e => setEnd(e.target.value)}/>
-                <input value={lText} type="text" placeholder="Описание" {...register("text")} onChange={e => setText(e.target.value)}/>
+                <label>Время начала:</label>
+                <input className={`datepicker ${errors.startTime ? "errorField" : ""}`} value={lStart} type="datetime-local" {...register("startTime", { required: true})} onChange={e => setStart(e.target.value)}/>
+                <label>Время завершения:</label>
+                <input className={`datepicker ${errors.startTime ? "errorField" : ""}`} value={lEnd} type="datetime-local" {...register("endTime", { required: true, validate: date => { const start = new Date(getValues("startTime")); const end = new Date(date); return start.getDate() === end.getDate() && start.getTime() < end.getTime(); } })} onChange={e => setEnd(e.target.value)}/>
+                <input className="formcomment" value={lText} type="text" placeholder="Описание" {...register("text")} onChange={e => setText(e.target.value)}/>
 
                 <select value={lRepeat} { ...register("repeat") } onChange={e => setRepeat(parseInt(e.target.value))}>
                     <option value={Repeat.NONE}>Без повторений</option>

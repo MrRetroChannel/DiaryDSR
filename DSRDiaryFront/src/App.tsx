@@ -13,7 +13,7 @@ function App() {
       <Navbar />
       <TypesProvider>
         <TasksProvider>
-          <div>
+          <div id="app">
             <Routes>
               <Route key = "home" path = "/" element = {<Calendar/>} />
               <Route key = "calendar" path = "/calendar" element = {<Calendar/>} />

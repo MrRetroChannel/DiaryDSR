@@ -23,6 +23,7 @@ export type Task = {
     text: string,
     typeid: number,
     repeat: Repeat,
+    status: Status
 }
 
 export type DBTask = {
@@ -61,7 +62,8 @@ export function TasksProvider({children} : {children: ReactNode}) {
                     endTime: new Date(prom.endtime),
                     text: prom.taskcomment,
                     typeid: prom.typeId,
-                    repeat: prom.repeat
+                    repeat: prom.repeat,
+                    status: prom.status
                 })
             }
         };
