@@ -13,7 +13,12 @@ function getPixels(task: Task): number[] {
 }
 
 function dateToTime(date: Date): string {
-    return `${date.getHours()}:${date.getMinutes()}`;
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+
+
+    return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
 }
 
 const statusStr = ["Провалено", "Выполняется", "Выполнено"];
@@ -56,8 +61,8 @@ export default function TaskBox({taskid, task}: {taskid: number, task: Task}) {
                 </div>
                 
                 <div className="taskStatus">
-                    {statusStr[task.status]}
-                    <div className="statusCircle" style={{backgroundColor: statusColor[task.status]}} />
+                    {statusStr[1]}
+                    <div className="statusCircle" style={{backgroundColor: statusColor[1]}} />
                 </div>
                 
                 <div className="taskTime">

@@ -10,31 +10,23 @@ export enum Repeat {
     YEARLY
 }
 
-export enum Status {
-    FAILED,
-    INPROGRESS,
-    DONE
-}
-
 export type Task = {
     name: string,
     startTime: Date,
     endTime: Date,
     text: string,
     typeid: number,
-    repeat: Repeat,
-    status: Status
+    repeat: Repeat
 }
 
 export type DBTask = {
-    taskid?: number,
-    taskname: string,
+    id?: number,
+    name: string,
     starttime: string,
     endtime: string,
-    taskcomment: string,
-    typeId: number,
-    status: Status,
-    repeat: Repeat,
+    comment: string,
+    typeid: number,
+    repeat: Repeat
 }
 
 export type TasksContext = {
@@ -56,14 +48,13 @@ export function TasksProvider({children} : {children: ReactNode}) {
             for (var type of json) {
                 var prom: DBTask = type;
                 
-                setTasks.set(prom.taskid!, {
-                    name: prom.taskname,
+                setTasks.set(prom.id!, {
+                    name: prom.name,
                     startTime: new Date(prom.starttime),
                     endTime: new Date(prom.endtime),
-                    text: prom.taskcomment,
-                    typeid: prom.typeId,
+                    text: prom.comment,
+                    typeid: prom.typeid,
                     repeat: prom.repeat,
-                    status: prom.status
                 })
             }
         };

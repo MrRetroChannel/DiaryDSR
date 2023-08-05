@@ -30,25 +30,23 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
 
     const handle: SubmitHandler<Task> = async data => {
         data.typeid = parseInt(data.typeid.toString());
-        data.repeat = parseInt(data.repeat.toString()); 
         data.startTime = new Date(data.startTime);
         data.endTime = new Date(data.endTime);
-        data.status = Status.INPROGRESS;
+        data.repeat = parseInt(data.repeat.toString());
         
-        const dbTask: DBTask = { taskname: data.name, 
+        const dbTask: DBTask = { name: data.name, 
                                  starttime: data.startTime.toISOString(),
                                  endtime: data.endTime.toISOString(),
-                                 taskcomment: data.text,
-                                 typeId: data.typeid,
-                                 status: Status.INPROGRESS,
+                                 comment: data.text,
+                                 typeid: data.typeid,
                                  repeat: data.repeat
                                 };
-        
+        console.log(JSON.stringify(dbTask));
         if (!isEditing)
             setTasks!.set(await post("api/Tasks", JSON.stringify(dbTask)), data);
         else {
             setTasks!.set(taskid!, data);
-            dbTask.taskid = taskid;
+            dbTask.id = taskid;
             await put("api/Tasks", JSON.stringify(dbTask));
         }
 

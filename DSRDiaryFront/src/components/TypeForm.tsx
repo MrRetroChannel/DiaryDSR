@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { TaskType, TypeContext } from '../contexts/TypeContext'
+import { TaskType, TypeContext, DBType } from '../contexts/TypeContext'
 import { post, put, apiDelete } from '../util/api';
 import '../styles/Form.css'
 
@@ -18,13 +18,15 @@ export default function TypeForm({open, close, name, color, typeid}: {open: bool
     const [lcolor, setColor] = useState(color);
 
     const handle: SubmitHandler<TaskType> = async data => {
+        let prom: DBType = { name: data.typename, color: data.color };
+
         if (!isEditing) 
-            setTypes!.set(await post("api/TaskType", JSON.stringify(data)), data); 
+            setTypes!.set(await post("api/TaskType", JSON.stringify(prom)), data); 
         else
         {
             setTypes!.set(typeid!, data);
-            const putData: {typeid: number} & TaskType = { typeid: typeid!, ...data };
-            await put("api/TaskType", JSON.stringify(putData));
+            prom.id = typeid!;
+            await put("api/TaskType", JSON.stringify(prom));
         }
 
         close(); 

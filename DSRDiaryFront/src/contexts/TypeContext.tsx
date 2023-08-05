@@ -7,6 +7,12 @@ export type TaskType = {
     color: string
 }
 
+export type DBType = {
+    id?: number,
+    name: string,
+    color: string
+}
+
 type TypesContext = {
     types: Map<number, TaskType>,
     setTypes: {
@@ -24,11 +30,10 @@ export function TypesProvider({children} : {children: ReactNode}) {
     useEffect(() => {
         const parseTypes = async () => { 
                 var json = await get("api/TaskType");
-                type DBType = {typeid: number} & TaskType;
                 
                 for (var type of json) {
                     var prom: DBType = type;
-                    setTypes.set(prom.typeid, { typename: prom.typename, color: prom.color });
+                    setTypes.set(prom.id!, { typename: prom.name, color: prom.color });
                 }
 
                 setLoading(false);
