@@ -1,6 +1,6 @@
 ﻿namespace DiaryDSR.Models
 {
-    public enum TypeStatus : byte
+    public enum TaskStatus : byte
     {
         FAILED,
         INPROGRESS,

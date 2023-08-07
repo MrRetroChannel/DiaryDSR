@@ -1,5 +1,6 @@
 global using Microsoft.EntityFrameworkCore;
 using DiaryDSR;
+using DSRDiaryAPI;
 
 class MainProgram
 {
@@ -8,7 +9,6 @@ class MainProgram
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
-
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -19,6 +19,9 @@ class MainProgram
         builder.Services.AddDbContext<AppPostgreContext>( options =>
                 options.UseNpgsql("Host=localhost;Port=5432;Database=Tasks;Username=postgres;Password=123")
         );
+
+        builder.Services.AddSingleton<TaskExpirer>();
+        builder.Services.AddHostedService(provider => provider.GetService<TaskExpirer>());
 
         var app = builder.Build();
 

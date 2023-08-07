@@ -30,18 +30,18 @@ namespace DSRDiaryAPI.Controllers
         {
             await _tasktypes.AddAsync(type);
             await _context.SaveChangesAsync();
-            return Ok(type.Typeid);
+            return Ok(type.Id);
         }
 
         [HttpPut]
         public async Task<ActionResult<bool>> Put(TaskType type)
         {
-            TaskType? found = _tasktypes.Find(type.Typeid);
+            TaskType? found = _tasktypes.Find(type.Id);
 
             if (found == null)
                 return BadRequest(false);
 
-            found.Typename = type.Typename;
+            found.Name = type.Name;
             found.Color = type.Color;
 
             await _context.SaveChangesAsync();

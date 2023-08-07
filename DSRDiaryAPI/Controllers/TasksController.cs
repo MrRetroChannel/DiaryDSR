@@ -1,4 +1,5 @@
 ﻿using DiaryDSR.Models;
+using DSRDiaryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -15,6 +16,8 @@ namespace DiaryDSR.Controllers
 
         private readonly DbSet<TaskType> _tasktypes;
 
+        private readonly DbSet<CompletedTask> _completedtasks;
+
         private struct JSONResponse
         {
             public int id { get; set; }
@@ -26,6 +29,7 @@ namespace DiaryDSR.Controllers
             _context = ctx;
             _tasks = ctx.DiaryTask;
             _tasktypes = ctx.TaskTypes;
+            _completedtasks = ctx.CompletedTasks;
         }
 
         [HttpGet]
@@ -34,29 +38,31 @@ namespace DiaryDSR.Controllers
             return Ok(await _tasks.ToListAsync());
         }
 
+        [HttpGet("Completed")]
+        public async Task<ActionResult<List<CompletedTask>>> GetCompleted()
+        {
+            return Ok(await _completedtasks.ToListAsync()); 
+        }
+
         [HttpPost]
         public async Task<ActionResult<int>> Post(DiaryTask task)
         {
-            TaskType? type = await _tasktypes.FindAsync(task.TypeId);
+            TaskType? type = await _tasktypes.FindAsync(task.Typeid);
 
             if (type == null)
                 return BadRequest(-1);
 
             await _tasks.AddAsync(task);
             await _context.SaveChangesAsync();
-            return Ok(task.Taskid);
+            return Ok(task.Id);
         }
 
-        [HttpPut("setComplete/{id}")]
-        public async Task<ActionResult<bool>> SetComplete(int id)
+        [HttpPost("setComplete")]
+        public async Task<ActionResult<bool>> SetComplete(CompletedTask task)
         {
-            DiaryTask? found = await _tasks.FindAsync(id);
-
-            if (found == null)
+            if (_completedtasks.Where(ctask => ctask.Day.Year == task.Day.Year && ctask.Day.DayOfYear == task.Day.DayOfYear).Count() > 0)
                 return BadRequest(false);
-
-            found.Status = TypeStatus.DONE;
-
+            await _completedtasks.AddAsync(task);
             await _context.SaveChangesAsync();
             return Ok(true);
         }
@@ -64,7 +70,7 @@ namespace DiaryDSR.Controllers
         [HttpPut]
         public async Task<ActionResult<bool>> Put(DiaryTask task)
         {
-            DiaryTask? found = _tasks.Find(task.Taskid);
+            DiaryTask? found = _tasks.Find(task.Id);
 
             if (found == null)
                 return BadRequest(false);
@@ -94,6 +100,7 @@ namespace DiaryDSR.Controllers
             if (found == null)
                 return BadRequest(false);
 
+            _completedtasks.RemoveRange(_completedtasks.Where(task => task.Taskid == id));
             _tasks.Remove(found);
             await _context.SaveChangesAsync();
             return Ok(true);

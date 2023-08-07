@@ -1,6 +1,6 @@
 ﻿namespace DiaryDSR.Models
 {
-    public enum TypeRepeat : byte
+    public enum TaskRepeat : byte
     {
         NONE,
         DAILY,

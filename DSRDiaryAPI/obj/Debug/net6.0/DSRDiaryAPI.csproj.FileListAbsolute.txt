@@ -47,3 +47,4 @@ C:\Users\MrRetro\source\repos\DiaryDSR\DSRDiaryAPI\obj\Debug\net6.0\refint\DSRDi
 C:\Users\MrRetro\source\repos\DiaryDSR\DSRDiaryAPI\obj\Debug\net6.0\DSRDiaryAPI.pdb
 C:\Users\MrRetro\source\repos\DiaryDSR\DSRDiaryAPI\obj\Debug\net6.0\DSRDiaryAPI.genruntimeconfig.cache
 C:\Users\MrRetro\source\repos\DiaryDSR\DSRDiaryAPI\obj\Debug\net6.0\ref\DSRDiaryAPI.dll
+C:\Users\MrRetro\source\repos\DiaryDSR\DSRDiaryAPI\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -1,30 +1,29 @@
-import { Task } from '../contexts/TaskContext'
+import { Task, TaskContext } from '../contexts/TaskContext'
 import { useContext, useState } from 'react'
 import { TypeContext } from '../contexts/TypeContext';
 import { TaskForm } from './TaskForm';
 import ContextMenu from './ContextMenu';
 import '../styles/TaskBox.css'
+import { CompletedTask } from '../contexts/CompletedTaskContext';
+import { getDayOfWeek } from '../util/dateUtil';
 
 function getPixels(task: Task): number[] {
     const startY = (task.startTime.getHours() * 60 + task.startTime.getMinutes()) / 15;
     const endY = (task.endTime.getHours() * 60 + task.endTime.getMinutes()) / 15;
-    const X = task.startTime.getDay(); 
-    return [ Math.round(startY), Math.round(endY), X];
+
+    return [ Math.round(startY), Math.round(endY)];
 }
 
 function dateToTime(date: Date): string {
     const hours = date.getHours();
     const minutes = date.getMinutes();
-
-
-
     return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
 }
 
 const statusStr = ["Провалено", "Выполняется", "Выполнено"];
 const statusColor = ["red", "#404040","#00ff11"]
 
-export default function TaskBox({taskid, task}: {taskid: number, task: Task}) {
+export default function TaskBox({virtualTask}: {virtualTask: CompletedTask}) {
     const [show, setShow] = useState(false);
     const [context, setContext] = useState({x: 0, y: 0})
     const [contextShow, setContextShow] = useState(false);
@@ -36,15 +35,19 @@ export default function TaskBox({taskid, task}: {taskid: number, task: Task}) {
     }
 
     const { types } = useContext(TypeContext);
+    const { tasks } = useContext(TaskContext);
 
-    const [sY, eY, X] = getPixels(task);
-
+    const task = tasks!.get(virtualTask.taskid)!;
     const type = types!.get(task.typeid);
+
+    const [sY, eY] = getPixels(task);
+
+    const X = getDayOfWeek(virtualTask.day);
 
     return (
         <>
-            <TaskForm open={show} close={() => setShow(false)} task={task} taskid={taskid}/>
-            {contextShow && <ContextMenu x={context.x} y={context.y} close={() => setContextShow(false)} taskid={taskid}/>}
+            <TaskForm open={show} close={() => setShow(false)} task={task} taskid={virtualTask.taskid}/>
+            {contextShow && <ContextMenu x={context.x} y={context.y} close={() => setContextShow(false)} task={virtualTask}/>}
             <div className="task" 
                 style={
                     {
@@ -61,8 +64,8 @@ export default function TaskBox({taskid, task}: {taskid: number, task: Task}) {
                 </div>
                 
                 <div className="taskStatus">
-                    {statusStr[1]}
-                    <div className="statusCircle" style={{backgroundColor: statusColor[1]}} />
+                    {statusStr[virtualTask.status]}
+                    <div className="statusCircle" style={{backgroundColor: statusColor[virtualTask.status]}} />
                 </div>
                 
                 <div className="taskTime">

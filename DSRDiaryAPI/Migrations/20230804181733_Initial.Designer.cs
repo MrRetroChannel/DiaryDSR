@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DSRDiaryAPI.Migrations
 {
     [DbContext(typeof(AppPostgreContext))]
-    [Migration("20230726200239_Initial")]
+    [Migration("20230804181733_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,16 +25,45 @@ namespace DSRDiaryAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DiaryDSR.Models.DiaryTask", b =>
+            modelBuilder.Entity("DSRDiaryAPI.Models.CompletedTask", b =>
                 {
-                    b.Property<int>("Taskid")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Taskid"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Taskid")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompletedTasks");
+                });
+
+            modelBuilder.Entity("DiaryDSR.Models.DiaryTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Endtime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<byte>("Repeat")
                         .HasColumnType("smallint");
@@ -42,41 +71,31 @@ namespace DSRDiaryAPI.Migrations
                     b.Property<DateTime>("Starttime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<byte>("Status")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Taskcomment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Taskname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TypeId")
+                    b.Property<int>("Typeid")
                         .HasColumnType("integer");
 
-                    b.HasKey("Taskid");
+                    b.HasKey("Id");
 
                     b.ToTable("DiaryTask");
                 });
 
             modelBuilder.Entity("DiaryDSR.Models.TaskType", b =>
                 {
-                    b.Property<int>("Typeid")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Typeid"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Typename")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Typeid");
+                    b.HasKey("Id");
 
                     b.ToTable("TaskTypes");
                 });

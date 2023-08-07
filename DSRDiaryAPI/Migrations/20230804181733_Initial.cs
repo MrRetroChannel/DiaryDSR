@@ -13,42 +13,59 @@ namespace DSRDiaryAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CompletedTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Taskid = table.Column<int>(type: "integer", nullable: false),
+                    Day = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompletedTasks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DiaryTask",
                 columns: table => new
                 {
-                    Taskid = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Taskname = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Starttime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Endtime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Taskcomment = table.Column<string>(type: "text", nullable: true),
-                    TypeId = table.Column<int>(type: "integer", nullable: false),
-                    Status = table.Column<byte>(type: "smallint", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Typeid = table.Column<int>(type: "integer", nullable: false),
                     Repeat = table.Column<byte>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiaryTask", x => x.Taskid);
+                    table.PrimaryKey("PK_DiaryTask", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TaskTypes",
                 columns: table => new
                 {
-                    Typeid = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Typename = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Color = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskTypes", x => x.Typeid);
+                    table.PrimaryKey("PK_TaskTypes", x => x.Id);
                 });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CompletedTasks");
+
             migrationBuilder.DropTable(
                 name: "DiaryTask");
 

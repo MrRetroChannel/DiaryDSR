@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { TypeContext } from '../contexts/TypeContext';
 import '../styles/Form.css'
-import { DBTask, Repeat, Status, Task, TaskContext } from '../contexts/TaskContext';
+import { DBTask, Repeat, Task, TaskContext } from '../contexts/TaskContext';
 import { apiDelete, post, put } from '../util/api';
 
 function toISO(date: Date) {
@@ -41,7 +41,6 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
                                  typeid: data.typeid,
                                  repeat: data.repeat
                                 };
-        console.log(JSON.stringify(dbTask));
         if (!isEditing)
             setTasks!.set(await post("api/Tasks", JSON.stringify(dbTask)), data);
         else {
@@ -79,7 +78,7 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
                                                 {type.typename}
                                               </option>)}
                 </select>
-                {isEditing && <button className="deleteButton" onClick={ async () => { setTasks?.remove(taskid!); await apiDelete(`api/Tasks`, taskid) }}>Удалить</button>}
+                {isEditing && <button className="deleteButton" onClick={ async () => { await apiDelete(`api/Tasks`, taskid!); setTasks!.remove(taskid!); close() }}>Удалить</button>}
                 <button>Сохранить</button>
             </form>
         </div>

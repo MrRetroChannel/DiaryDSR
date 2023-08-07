@@ -8,9 +8,9 @@ namespace DiaryDSR.Models;
 public partial class TaskType
 {
     [Key]
-    public int Typeid { get; set; }
+    public int Id { get; set; }
 
-    public string Typename { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     public string Color { get; set; } = "#000000";
 }
