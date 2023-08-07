@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react"
 import { Repeat, TaskContext } from "../contexts/TaskContext"
 import TaskBox from "./TaskBox";
 import '../styles/Calendar.css'
-import { CompletedTask, CompletedTaskContext, Status, isEqual, DBCompleted } from "../contexts/CompletedTaskContext";
+import { CompletedTask, CompletedTaskContext, Status, isEqual } from "../contexts/CompletedTaskContext";
 import { getDayOfWeek, getDaysDiff } from "../util/dateUtil";
 
 const genTime = () => { 
