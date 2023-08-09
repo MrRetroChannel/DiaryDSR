@@ -10,7 +10,7 @@ export default function Calendar() {
     return (
         <div id="calendar">
             <TasksGraph/>
-            <button className="addButton" onClick = {() => setShow(true)}>
+            <button className="addButton calendarButton" onClick = {() => setShow(true)}>
                 Добавить задачу 
                 <span style={{fontSize: "2rem", marginLeft: 4}}>+</span>
             </button>

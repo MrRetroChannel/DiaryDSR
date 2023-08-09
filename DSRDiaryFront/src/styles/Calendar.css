@@ -3,25 +3,21 @@
 }
 
 .curDate {
+    display: flex;
+    align-items: baseline;
     font-weight: 500;
     position: absolute;
-    left: 45%;
+    left: 45vw;
+    gap: 20px;
 }
 
 .weekButtonForward {
-    cursor: pointer;
-    position: fixed;
-    top: 53%;
-    left: 27%;
-    z-index: 1;
+    cursor: pointer;  
 }
 
 .weekButtonBack {
     cursor: pointer;
-    position: fixed;
-    top: 53%;
-    right: 19%;
-    z-index: 1;
+    position: relative;
 }
 
 .fullGrid {
@@ -29,10 +25,10 @@
     display: grid;
     grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr);
-    width: 60vw;
+    width: 80vw;
     height: 70vh;
     bottom: 5%;
-    left: 20%;
+    left: 10%;
 }
 
 .tasksgraph {
@@ -78,9 +74,20 @@
     box-sizing: border-box;
     padding: 10px;
     gap: 4px;
+    z-index: 9999;
 }
 
 .contextMenu > * {
     padding: 3px;
     border-radius: 4px;
+}
+
+.calendarButton {
+    top: 13%;
+    right: 10%;
+}
+
+.titleYear {
+    font-size: 1.5em;
+    margin-left: 0.5em;
 }

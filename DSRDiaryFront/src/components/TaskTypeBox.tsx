@@ -13,11 +13,13 @@ export default function TaskTypeBox({typeid, typename, color}: {typeid: number} 
 
     return (
         <div className="typebox">
-            {typename}
+            <div className="boxText">
+                {typename}
+            </div>
             <div style={{backgroundColor: color, height: 15, width: 15, borderRadius: "50%", border: "1px solid white"}}></div>
-            <button className="editButton" onClick={ () => { setShow(true) } }>Изменить</button>
+            <button className="editButton" style={{float: "right"}} onClick={ () => { setShow(true) } }>Изменить</button>
             <TypeForm open={show} close={ () => setShow(false) } name={typename} color={color} typeid={typeid} />
-            <button className="deleteButton" onClick={ async () => { setTypes!.remove(typeid); await apiDelete("api/TaskType", typeid) } }><img src={Trash} style={{height: "0.8rem"}}/> Удалить</button>
+            <button className="deleteButton" style={{float: "right"}} onClick={ async () => { setTypes!.remove(typeid); await apiDelete("api/TaskType", typeid) } }><img src={Trash} style={{height: "0.8rem"}}/> Удалить</button>
         </div>
     )
 }

@@ -46,9 +46,8 @@ export default function TasksGraph() {
         eventSource.onmessage = e => {
             const completed = JSON.parse(e.data);
 
-            for (let task of completed) {
+            for (let task of completed)
                 setCompletedTasks!(prev => [...prev, { taskid: task.Taskid, day: new Date(task.Day), status: task.Status }]);
-            }
         }
     }, [])
 
@@ -117,10 +116,20 @@ export default function TasksGraph() {
             <button className="weekButtonForward" onClick={() => changeDate(-7)}>
                 {"<"}
             </button>
-            {`${getWeekDate(date)}         ${date.getFullYear()}`}
+
+            <div className="titleDays">
+                {`${getWeekDate(date)}`}
+            </div>
+
             <button className="weekButtonBack" onClick={() => changeDate(7)}>
                 {">"}
             </button>
+            
+            <div className="titleYear">
+                {`${date.getFullYear()}`}
+            </div>
+
+            
         </div>
         <div className="fullGrid">
             <div className="tasksgraph">

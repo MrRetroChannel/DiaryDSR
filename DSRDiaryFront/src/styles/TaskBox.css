@@ -52,3 +52,12 @@
 .taskTime {
     font-size: 2vh;
 }
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+}
