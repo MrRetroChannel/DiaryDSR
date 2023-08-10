@@ -60,7 +60,7 @@ namespace DiaryDSR.Controllers
         [HttpPost("setComplete")]
         public async Task<ActionResult<bool>> SetComplete(CompletedTask task)
         {
-            if (_completedtasks.Where(ctask => ctask.Day.Year == task.Day.Year && ctask.Day.DayOfYear == task.Day.DayOfYear).Count() > 0)
+            if (_completedtasks.Where(ctask => ctask.Taskid == task.Taskid && ctask.Day.Year == task.Day.Year && ctask.Day.DayOfYear == task.Day.DayOfYear).Count() > 0)
                 return BadRequest(false);
             await _completedtasks.AddAsync(task);
             await _context.SaveChangesAsync();

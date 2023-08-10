@@ -36,16 +36,17 @@ export default function HoursHistogram({week}: {week: number}) {
         }
     }
 
+    console.log(typeMap);
+
     let lastHour = 1;
 
     return (
         <div className="hoursHistogram">
             { Array.from(typeMap.entries()).map(([key, value], idx) => {
-                
                 return (
                     <div key={idx} className="taskTypeColumn" style={{
                         gridColumn: `${week - 1}`,
-                        gridRow: `${-lastHour} / ${-(lastHour += value)}`,
+                        gridRow: `${-lastHour} / ${-(lastHour += Math.round(value))}`,
                         backgroundColor: key.color,
                         overflow: "hidden",
                         border: "1px solid black",

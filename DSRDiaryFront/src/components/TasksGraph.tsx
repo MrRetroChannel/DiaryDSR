@@ -110,6 +110,8 @@ export default function TasksGraph() {
         return thisWeekTasks;
     }
 
+    var zIndex = 1;
+
     return (
         <>
         <div className="curDate">
@@ -133,7 +135,21 @@ export default function TasksGraph() {
         </div>
         <div className="fullGrid">
             <div className="tasksgraph">
-            { getWeekTasks().map((task, idx) => <TaskBox key={idx} virtualTask={task}/>) }
+            { getWeekTasks().sort(
+                (a, b) => { 
+                    let taska = tasks!.get(a.taskid);
+                    let taskb = tasks!.get(b.taskid);
+                    
+                    let aNum = taska!.endTime.getTime() - taska!.startTime.getTime();
+                    let bNum = taskb!.endTime.getTime() - taskb!.startTime.getTime();
+
+                    if (aNum > bNum)
+                        return -1;
+                    if (aNum < bNum)
+                        return 1;
+                    return 0;
+                })
+                .map((task, idx) => <TaskBox key={idx} virtualTask={task}/>) }
             </div>
 
             <div className="timeGrid">

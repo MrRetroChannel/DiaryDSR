@@ -54,7 +54,7 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
 
     return (
         <div className={`overlay-background ${open ? "active" : ""}`}>
-            <form className={"overlay-form"} onSubmit = {handleSubmit(handle)}>
+            <form className="overlay-form" onSubmit = {handleSubmit(handle)}>
                 <button className="closeButton" onClick={close}>&times;</button>
 
                 <input className={errors.name ? "errorField" : ""} value={lname} type="text" placeholder = "Имя задачи" {...register("name", { required: true})} onChange={e => setName(e.target.value)}/>
@@ -78,8 +78,10 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
                                                 {type.typename}
                                               </option>)}
                 </select>
+                <div className="buttons">
                 {isEditing && <button className="deleteButton" onClick={ async () => { await apiDelete(`api/Tasks`, taskid!); setTasks!.remove(taskid!); close() }}>Удалить</button>}
                 <button>Сохранить</button>
+                </div>
             </form>
         </div>
     )
