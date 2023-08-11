@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { CompletedTaskContext, Status } from '../contexts/CompletedTaskContext'
 import { TaskContext } from '../contexts/TaskContext';
 import { TaskType, TypeContext } from '../contexts/TypeContext';
@@ -36,13 +36,13 @@ export default function HoursHistogram({week}: {week: number}) {
         }
     }
 
-    console.log(typeMap);
-
     let lastHour = 1;
 
     return (
         <div className="hoursHistogram">
             { Array.from(typeMap.entries()).map(([key, value], idx) => {
+                
+    const [show, setShow] = useState(false);
                 return (
                     <div key={idx} className="taskTypeColumn" style={{
                         gridColumn: `${week - 1}`,
@@ -51,8 +51,11 @@ export default function HoursHistogram({week}: {week: number}) {
                         overflow: "hidden",
                         border: "1px solid black",
                         zIndex: 2
-                    }}>
+                    }}
+                    onMouseEnter={() => setShow(true)}
+                    onMouseLeave={() => setShow(false)}>
                         {key.typename}
+                        {show && <div>{`${Math.round(value)} часов`}</div>}
                     </div>
                 )
             }) }

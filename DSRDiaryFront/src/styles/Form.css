@@ -57,8 +57,9 @@ textarea {
 }
 
 .saveButton {
-  margin-top: 10px;
-  padding: 10px 20px;
+  padding: 3px 5px;
+  font-size: 14px;
+  margin-top: 5px;
   border: none;
   border-radius: 4px;
   background-color: #007bff;
@@ -120,6 +121,12 @@ textarea {
   font-size: 2rem;
 }
 
+.selects {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -127,6 +134,10 @@ textarea {
   to {
     opacity: 1;
   }
+}
+
+.formcomment {
+  height: 75px;
 }
 
 @keyframes jump {

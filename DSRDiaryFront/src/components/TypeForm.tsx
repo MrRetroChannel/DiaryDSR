@@ -35,14 +35,17 @@ export default function TypeForm({open, close, name, color, typeid}: {open: bool
     return (
         <div className={`overlay-background ${open ? "active" : ""}`}>
             <form className="overlay-form" onSubmit={handleSubmit(handle)}>
+                <div style={{height: "10px"}}></div>
                 <button className="closeButton" onClick={close}>&times;</button>
                 <input placeholder="Имя типа" className={errors.typename? "errorField" : ""} type="text" value={lname} {...register("typename", { required: true })} onChange={(e) => setName(e.target.value)}/>
                 <label>Цвет</label>
                 <input className="colorPicker" type="color" value={lcolor === undefined ? "#000000" : lcolor} {...register("color")} onChange={(e) => setColor(e.target.value)}/>
-                {isEditing && <button className="deleteButton" onClick={async () => { setTypes!.remove(typeid!); await apiDelete("api/TaskType", typeid); close(); }}>
+                <div className="buttons">
+                {isEditing && <button className="deleteButton" style={{marginTop: "5px"}} onClick={async () => { setTypes!.remove(typeid!); await apiDelete("api/TaskType", typeid); close(); }}>
                                 Удалить
                               </button>}
                 <button className="saveButton">Сохранить</button>
+                </div>
             </form>
         </div>
     )

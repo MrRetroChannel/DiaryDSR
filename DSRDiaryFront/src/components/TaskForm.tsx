@@ -52,18 +52,23 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
         close();
     }
 
+    console.log(errors);
+
     return (
         <div className={`overlay-background ${open ? "active" : ""}`}>
             <form className="overlay-form" onSubmit = {handleSubmit(handle)}>
+                <div style={{height: "10px"}}></div>
                 <button className="closeButton" onClick={close}>&times;</button>
 
                 <input className={errors.name ? "errorField" : ""} value={lname} type="text" placeholder = "Имя задачи" {...register("name", { required: true})} onChange={e => setName(e.target.value)}/>
                 <label>Время начала:</label>
                 <input className={`datepicker ${errors.startTime ? "errorField" : ""}`} value={lStart} type="datetime-local" {...register("startTime", { required: true})} onChange={e => setStart(e.target.value)}/>
                 <label>Время завершения:</label>
-                <input className={`datepicker ${errors.startTime ? "errorField" : ""}`} value={lEnd} type="datetime-local" {...register("endTime", { required: true, validate: date => { const start = new Date(getValues("startTime")); const end = new Date(date); return start.getDate() === end.getDate() && start.getTime() < end.getTime(); } })} onChange={e => setEnd(e.target.value)}/>
+                <input className={`datepicker ${errors.endTime ? "errorField" : ""}`} value={lEnd} type="datetime-local" {...register("endTime", { required: true, validate: date => { const start = new Date(getValues("startTime")); const end = new Date(date); return start.getDate() === end.getDate() && start.getTime() < end.getTime(); } })} onChange={e => setEnd(e.target.value)}/>
+                {errors.endTime && <div>Задача должна закончиться в день начала</div>}
                 <input className="formcomment" value={lText} type="text" placeholder="Описание" {...register("text")} onChange={e => setText(e.target.value)}/>
 
+                <div className="selects">
                 <select value={lRepeat} { ...register("repeat") } onChange={e => setRepeat(parseInt(e.target.value))}>
                     <option value={Repeat.NONE}>Без повторений</option>
                     <option value={Repeat.DAILY}>Каждый день</option>
@@ -78,9 +83,11 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
                                                 {type.typename}
                                               </option>)}
                 </select>
+                </div>
+
                 <div className="buttons">
-                {isEditing && <button className="deleteButton" onClick={ async () => { await apiDelete(`api/Tasks`, taskid!); setTasks!.remove(taskid!); close() }}>Удалить</button>}
-                <button>Сохранить</button>
+                {isEditing && <button className="deleteButton" style={{marginTop: "5px"}} onClick={ async () => { await apiDelete(`api/Tasks`, taskid!); setTasks!.remove(taskid!); close() }}>Удалить</button>}
+                <button className="saveButton">Сохранить</button>
                 </div>
             </form>
         </div>
