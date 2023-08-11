@@ -11,6 +11,7 @@
 
 .task:hover {
     box-shadow: 4px 10px 8px 0px rgba(34, 60, 80, 0.678);
+    z-index: 9999;
 }
 
 .completeCtxButton {
@@ -51,4 +52,13 @@
 
 .taskTime {
     font-size: 2vh;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
 }

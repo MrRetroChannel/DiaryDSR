@@ -28,8 +28,11 @@ export function TypesProvider({children} : {children: ReactNode}) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const parseTypes = async () => { 
-                var json = await get("api/TaskType");
+        const parseTypes = async () => {
+            const check = async () => {await get("api/TaskType").catch(check)}
+            await check();
+
+            var json = await get("api/TaskType");
                 
                 for (var type of json) {
                     var prom: DBType = type;

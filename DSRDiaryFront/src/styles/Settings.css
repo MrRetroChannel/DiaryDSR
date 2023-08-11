@@ -8,10 +8,10 @@
 }
 
 .typebox {
-
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: left;
     padding: 10px;
     background-color: black;
     width: 25%;
@@ -21,4 +21,13 @@
     gap: 10px;
 }
 
+.boxText {
+    flex-grow: 1;
+    order: 0;
+    margin-left: 2%;
+}
 
+.settingsButton {
+    top: 14%;
+    right: 10%;
+}

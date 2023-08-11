@@ -10,7 +10,7 @@ export default function Settings() {
 
     return (
         <div id="settings">
-            <button className="addButton" onClick = {() => setShow(!show)}>
+            <button className="addButton settingsButton" onClick = {() => setShow(!show)}>
                 Добавить тип задачи 
                 <span style={{fontSize: "2rem", marginLeft: 4}}>+</span>
             </button>

@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react"
 import { Repeat, TaskContext } from "../contexts/TaskContext"
 import TaskBox from "./TaskBox";
 import '../styles/Calendar.css'
-import { CompletedTask, CompletedTaskContext, Status, isEqual, DBCompleted } from "../contexts/CompletedTaskContext";
+import { CompletedTask, CompletedTaskContext, Status, isEqual } from "../contexts/CompletedTaskContext";
 import { getDayOfWeek, getDaysDiff } from "../util/dateUtil";
 
 const genTime = () => { 
@@ -13,7 +13,7 @@ const genTime = () => {
     return t;
 }
 
-function getWeekDate(date?: Date) : string {
+export function getWeekDate(date?: Date) : string {
     const today = date ?? new Date();
 
     const startOfWeek = new Date(today);
@@ -46,9 +46,8 @@ export default function TasksGraph() {
         eventSource.onmessage = e => {
             const completed = JSON.parse(e.data);
 
-            for (let task of completed) {
+            for (let task of completed)
                 setCompletedTasks!(prev => [...prev, { taskid: task.Taskid, day: new Date(task.Day), status: task.Status }]);
-            }
         }
     }, [])
 
@@ -111,20 +110,46 @@ export default function TasksGraph() {
         return thisWeekTasks;
     }
 
+    var zIndex = 1;
+
     return (
         <>
         <div className="curDate">
             <button className="weekButtonForward" onClick={() => changeDate(-7)}>
                 {"<"}
             </button>
-            {`${getWeekDate(date)}         ${date.getFullYear()}`}
+
+            <div className="titleDays">
+                {`${getWeekDate(date)}`}
+            </div>
+
             <button className="weekButtonBack" onClick={() => changeDate(7)}>
                 {">"}
             </button>
+            
+            <div className="titleYear">
+                {`${date.getFullYear()}`}
+            </div>
+
+            
         </div>
         <div className="fullGrid">
             <div className="tasksgraph">
-            { getWeekTasks().map((task, idx) => <TaskBox key={idx} virtualTask={task}/>) }
+            { getWeekTasks().sort(
+                (a, b) => { 
+                    let taska = tasks!.get(a.taskid);
+                    let taskb = tasks!.get(b.taskid);
+                    
+                    let aNum = taska!.endTime.getTime() - taska!.startTime.getTime();
+                    let bNum = taskb!.endTime.getTime() - taskb!.startTime.getTime();
+
+                    if (aNum > bNum)
+                        return -1;
+                    if (aNum < bNum)
+                        return 1;
+                    return 0;
+                })
+                .map((task, idx) => <TaskBox key={idx} virtualTask={task}/>) }
             </div>
 
             <div className="timeGrid">

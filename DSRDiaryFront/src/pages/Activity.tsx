@@ -1,5 +1,9 @@
+import StatsGraph from "../components/StatsGraph";
+
 export default function Activity() {
     return (
-        <h1>Activity</h1>
+        <div id="activity">
+            <StatsGraph/>
+        </div>
     )
 }

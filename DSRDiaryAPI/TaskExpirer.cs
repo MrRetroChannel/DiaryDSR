@@ -26,7 +26,7 @@ namespace DSRDiaryAPI
 
             var today = tasks.Where(task =>
             {
-                int diff = DateTime.UtcNow.DayOfYear - task.Starttime.DayOfYear;
+                int diff = (int)(DateTime.UtcNow - task.Starttime).TotalDays;
                 var repeat = task.Repeat;
 
                 switch (repeat)
@@ -55,7 +55,7 @@ namespace DSRDiaryAPI
                 return false;
             });
 
-            var expired = today.Where(task => task.Endtime < DateTime.UtcNow);
+            var expired = today.Where(task => task.Endtime.TimeOfDay < DateTime.UtcNow.TimeOfDay);
 
             foreach (var task in expired)
             {
@@ -65,6 +65,7 @@ namespace DSRDiaryAPI
                     var add = new Models.CompletedTask { Status = DiaryDSR.Models.TaskStatus.FAILED, Taskid = task.Id, Day = DateTime.UtcNow };
                     await context.CompletedTasks.AddAsync(add);
                     ExpiredTasks.Add(add);
+                    Console.WriteLine(task.Endtime);
                 }
             }
             await context.SaveChangesAsync();
