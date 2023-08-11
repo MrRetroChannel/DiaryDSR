@@ -13,7 +13,7 @@ const genTime = () => {
     return t;
 }
 
-function getWeekDate(date?: Date) : string {
+export function getWeekDate(date?: Date) : string {
     const today = date ?? new Date();
 
     const startOfWeek = new Date(today);
