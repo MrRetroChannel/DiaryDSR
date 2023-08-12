@@ -5,7 +5,7 @@
 npm i
 npm run build
 npm i --global http-server
-cd dist
+cd build
 http-server
 ```
 Доступ по 127.0.0.1:[порт]
