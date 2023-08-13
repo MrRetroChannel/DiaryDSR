@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: { hmr: {
     host: 'localhost'
-  }}
+  }, 
+  host: true,
+},
+  build: {
+    outDir: './build'
+  }
   //server: { host: true }
 })

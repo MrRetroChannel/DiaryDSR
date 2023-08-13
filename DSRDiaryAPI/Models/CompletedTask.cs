@@ -7,6 +7,7 @@ namespace DSRDiaryAPI.Models
     {
         [Key]
         public int Id { get; set; }
+
         public int Taskid { get; set; }
 
         public DateTime Day { get; set; }

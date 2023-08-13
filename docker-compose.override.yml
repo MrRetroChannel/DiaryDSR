@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  dsrdiaryapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionStrings__PostgreConnect=Host=tasksdb;Port=5432;Database=Tasks;Username=postgres;Password=123
+    ports:
+      - "7177:443"
+      - "7178:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

@@ -17,7 +17,7 @@ class MainProgram
         );
 
         builder.Services.AddDbContext<AppPostgreContext>( options =>
-                options.UseNpgsql("Host=localhost;Port=5432;Database=Tasks;Username=postgres;Password=123")
+                options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreConnect"))
         );
 
         builder.Services.AddSingleton<TaskExpirer>();

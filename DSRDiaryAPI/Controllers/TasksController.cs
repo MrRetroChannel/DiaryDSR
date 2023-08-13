@@ -18,12 +18,6 @@ namespace DiaryDSR.Controllers
 
         private readonly DbSet<CompletedTask> _completedtasks;
 
-        private struct JSONResponse
-        {
-            public int id { get; set; }
-            public string message { get; set; }
-        }
-
         public TasksController(AppPostgreContext ctx)
         {
             _context = ctx;

@@ -54,7 +54,20 @@ export default function HoursHistogram({week}: {week: number}) {
                     window.addEventListener('mousemove', listener);
 
                     return () => window.removeEventListener('mousemove', listener);
-                })
+                }, [])
+                
+                const val = Math.round(value);
+                
+                let ending: string = "";
+
+                if (val % 10 == 1)
+                    ending = "";
+                else
+                if (val >= 10 && val < 20 || (val % 10 >= 5 && val % 10 <= 9))
+                    ending = "ов";
+                else
+                    ending = "а";
+
                 return (
                     <div key={idx} className="taskTypeColumn" style={{
                         gridColumn: `${week - 1}`,
@@ -67,7 +80,7 @@ export default function HoursHistogram({week}: {week: number}) {
                     }}
                     onMouseEnter={() => setShow(true)}
                     onMouseLeave={() => setShow(false)}>
-                        {show && <div style={{position: 'fixed', top: y - 10, left: x + 10, width: '100px', backgroundColor: '#000a'}}>{`${Math.round(value)} часов`}</div>}
+                        {show && <div style={{position: 'fixed', top: y - 10, left: x + 10, width: '100px', backgroundColor: '#000a'}}>{`${Math.round(value)} час${ending}`}</div>}
                         {key.typename}
                     </div>
                 )
