@@ -2,6 +2,7 @@
 
 Для сборки клиента:
 ```
+cd DSRDiaryAPI
 npm i
 npm run build
 npm i --global http-server
@@ -14,3 +15,5 @@ http-server
 ```
 dotnet build
 ```
+База данных для pgAdmin - pgAdminBackup.sql,
+для pg_restore - PostgreDB/tasksDump.sql
