@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSRDiaryAPI", "DSRDiaryAPI\DSRDiaryAPI.csproj", "{7BCDC27A-C3D0-41B4-B359-44D4C61310B7}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{96F6094B-F4CB-460F-ACAA-5ACE5A093C3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7BCDC27A-C3D0-41B4-B359-44D4C61310B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BCDC27A-C3D0-41B4-B359-44D4C61310B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BCDC27A-C3D0-41B4-B359-44D4C61310B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96F6094B-F4CB-460F-ACAA-5ACE5A093C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F6094B-F4CB-460F-ACAA-5ACE5A093C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96F6094B-F4CB-460F-ACAA-5ACE5A093C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96F6094B-F4CB-460F-ACAA-5ACE5A093C3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

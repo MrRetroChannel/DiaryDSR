@@ -25,14 +25,14 @@ export default function StatsGraph() {
                 {lastWeeksDates().map((val, idx) => {
                     idx += 1;
                     return (
-                        <div style={{gridColumn: `${-idx} / ${-idx - 1}`, gridRow: 1, marginTop: 5}}>
+                        <div key={idx} style={{gridColumn: `${-idx} / ${-idx - 1}`, gridRow: 1, marginTop: 5}}>
                             {val}
                         </div>
                     )
                 })}
             </div>
 
-            {[-1, -2, -3, -4].map(week => <HoursHistogram week={week}/>) }
+            {[-1, -2, -3, -4].map(week => <HoursHistogram key={-week} week={week}/>) }
         </div>
     )
 }

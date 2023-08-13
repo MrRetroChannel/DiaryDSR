@@ -11,7 +11,6 @@ namespace DSRDiaryAPI.Controllers
     {
         TaskExpirer _expirer;
 
-
         public TasksUpdaterController(TaskExpirer expirer)
         {
             _expirer = expirer;

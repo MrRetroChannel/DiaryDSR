@@ -109,9 +109,7 @@ export default function TasksGraph() {
 
         return thisWeekTasks;
     }
-
-    var zIndex = 1;
-
+    
     return (
         <>
         <div className="curDate">

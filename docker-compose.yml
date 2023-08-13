@@ -1,0 +1,46 @@
+version: '3.4'
+
+networks:
+  diaryapp:
+    driver: bridge
+
+services:
+  dsrdiaryapi:
+    image: ${DOCKER_REGISTRY-}dsrdiaryapi
+    build:
+      context: .
+      dockerfile: DSRDiaryAPI/Dockerfile
+    networks:
+     - diaryapp
+    depends_on:
+      tasksdb:
+        condition: service_healthy  
+
+  diaryclient:
+    image: react-client
+    build:
+      context: ./DSRDiaryFront
+      dockerfile: Dockerfile
+    ports:
+     - "5173:5173"
+     - "5000:8080"
+
+  tasksdb:
+    image: tasksdb
+    build:
+     context: ./PostgreDB
+     dockerfile: Dockerfile
+    ports:
+     - "5433:5432"
+    restart: always
+    volumes:
+     - ./PostgreDB/tasksDump.sql:/docker-entrypoint-initdb.d/tasksDump.sql
+     - ./PostgreDB/postgres-data:/var/lib/postgresql/data
+    networks:
+     - diaryapp
+    healthcheck:
+      test: "exit 0"
+
+
+volumes:
+  db_data:

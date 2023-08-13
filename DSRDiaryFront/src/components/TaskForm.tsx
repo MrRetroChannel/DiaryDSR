@@ -52,8 +52,6 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
         close();
     }
 
-    console.log(errors);
-
     return (
         <div className={`overlay-background ${open ? "active" : ""}`}>
             <form className="overlay-form" onSubmit = {handleSubmit(handle)}>
@@ -65,7 +63,7 @@ export function TaskForm({open, close, task, taskid}: {open: boolean, close: () 
                 <input className={`datepicker ${errors.startTime ? "errorField" : ""}`} value={lStart} type="datetime-local" {...register("startTime", { required: true})} onChange={e => setStart(e.target.value)}/>
                 <label>Время завершения:</label>
                 <input className={`datepicker ${errors.endTime ? "errorField" : ""}`} value={lEnd} type="datetime-local" {...register("endTime", { required: true, validate: date => { const start = new Date(getValues("startTime")); const end = new Date(date); return start.getDate() === end.getDate() && start.getTime() < end.getTime(); } })} onChange={e => setEnd(e.target.value)}/>
-                {errors.endTime && <div style={{width: '200px', textAlign: 'center'}}>Задача должна закончиться в день начала</div>}
+                {errors.endTime && <div style={{width: '200px', textAlign: 'center', fontSize: '0.7rem'}}>Задача должна закончиться в день начала</div>}
                 <input className="formcomment" value={lText} type="text" placeholder="Описание" {...register("text")} onChange={e => setText(e.target.value)}/>
 
                 <div className="selects">

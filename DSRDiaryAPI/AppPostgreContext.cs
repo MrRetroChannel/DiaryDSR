@@ -15,14 +15,6 @@ namespace DiaryDSR
 
         public AppPostgreContext(DbContextOptions options) : base(options)
         {
-        }
-
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseNpgsql($"Host=localhost;Port=5432;Database=Tasks;Username=postgres;Password=123");
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
 
         }
     }
