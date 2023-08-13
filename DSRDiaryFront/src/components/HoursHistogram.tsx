@@ -75,12 +75,11 @@ export default function HoursHistogram({week}: {week: number}) {
                         backgroundColor: key.color,
                         overflow: "hidden",
                         border: "1px solid black",
-                        zIndex: 2,
                         position: 'relative'
                     }}
                     onMouseEnter={() => setShow(true)}
                     onMouseLeave={() => setShow(false)}>
-                        {show && <div style={{position: 'fixed', top: y - 10, left: x + 10, width: '100px', backgroundColor: '#000a'}}>{`${Math.round(value)} час${ending}`}</div>}
+                        {show && <div style={{position: 'fixed', top: y - 10, left: x + 10, width: '100px', backgroundColor: '#000a', zIndex: 1}}>{`${Math.round(value)} час${ending}`}</div>}
                         {key.typename}
                     </div>
                 )
