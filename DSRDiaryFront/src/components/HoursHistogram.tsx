@@ -63,7 +63,7 @@ export default function HoursHistogram({week}: {week: number}) {
                 if (val % 10 == 1)
                     ending = "";
                 else
-                if (val >= 10 && val < 20 || (val % 10 >= 5 && val % 10 <= 9))
+                if (val >= 10 && val < 20 || (val % 10 >= 5 && val % 10 <= 9) || (val % 10 == 0))
                     ending = "ов";
                 else
                     ending = "а";
