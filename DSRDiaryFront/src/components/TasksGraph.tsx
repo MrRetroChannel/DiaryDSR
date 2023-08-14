@@ -41,7 +41,7 @@ export default function TasksGraph() {
     const [date, setDate] = useState(new Date());
 
     useEffect(() => {
-        var eventSource = new EventSource("https://localhost:7177/api/TasksUpdater");
+        var eventSource = new EventSource("http://localhost:7177/api/TasksUpdater");
 
         eventSource.onmessage = e => {
             const completed = JSON.parse(e.data);
