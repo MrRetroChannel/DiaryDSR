@@ -65,7 +65,6 @@ namespace DSRDiaryAPI
                     var add = new Models.CompletedTask { Status = DiaryDSR.Models.TaskStatus.FAILED, Taskid = task.Id, Day = DateTime.UtcNow };
                     await context.CompletedTasks.AddAsync(add);
                     ExpiredTasks.Add(add);
-                    Console.WriteLine(task.Endtime);
                 }
             }
             await context.SaveChangesAsync();

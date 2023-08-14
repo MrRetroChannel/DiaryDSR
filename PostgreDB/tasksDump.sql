@@ -249,7 +249,6 @@ COPY public."TaskTypes" ("Id", "Name", "Color") FROM stdin;
 8	Прошлые	#000000
 9	Развлекушки	#17e82f
 11	Неважное	#204aac
-12	Чщдлвфыьв	#8f3838
 \.
 
 
