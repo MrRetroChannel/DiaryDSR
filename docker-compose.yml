@@ -15,6 +15,7 @@ services:
     depends_on:
       tasksdb:
         condition: service_healthy
+    restart: always
 
   diaryclient:
     image: react-client
