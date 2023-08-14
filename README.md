@@ -2,7 +2,7 @@
 
 Для сборки клиента:
 ```
-cd DSRDiaryAPI
+cd DSRDiaryFront
 npm i
 npm run build
 npm i --global http-server
