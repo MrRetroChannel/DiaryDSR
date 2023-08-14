@@ -1,4 +1,4 @@
-const url = "https://localhost:7177";
+const url = "http://localhost:7177";
 
 async function get(endpoint?: string) {
     return await (await fetch(`${url}/${endpoint}`, 
